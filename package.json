@@ -17,5 +17,7 @@
     "url": "https://github.com/lyzadanger/artik5-resin/issues"
   },
   "homepage": "https://github.com/lyzadanger/artik5-resin#readme",
-  "dependencies": {}
+  "dependencies": {
+    "epoll": "^0.1.19"
+  }
 }
