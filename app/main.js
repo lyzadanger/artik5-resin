@@ -1,1 +1,1 @@
-require('./example-01-led-only');
+require('./example-01-button-led');
