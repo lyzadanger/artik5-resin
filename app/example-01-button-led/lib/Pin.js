@@ -47,12 +47,14 @@ DigitalPin.prototype.toggle = function () {
 };
 
 DigitalPin.prototype.watch = function (fn) {
+  console.log('setting up watch');
+  fs.writeFileSync(path.join(this.pinPath, 'edge'), 'both');
   const valuefd = fs.openSync(path.join(this.pinPath, 'value'), 'r');
   var buffer = new Buffer(1);
 
   this.poller = new EPoll((err, fd, events) => {
     fs.readSync(fd, buffer, 0, 1, 0);
-    this.fn(buffer);
+    fn.call(this, buffer);
   });
   fs.readSync(valuefd, buffer, 0, 1, 0);
   this.poller.add(valuefd, EPoll.EPOLLPRI);
