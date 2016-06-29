@@ -1,0 +1,21 @@
+{
+  "name": "artik5-resin",
+  "version": "0.0.1",
+  "description": "Playtime with GPIO",
+  "main": "app/main.js",
+  "scripts": {
+    "start": "node app/main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lyzadanger/artik5-resin.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lyzadanger/artik5-resin/issues"
+  },
+  "homepage": "https://github.com/lyzadanger/artik5-resin#readme",
+  "dependencies": {}
+}
