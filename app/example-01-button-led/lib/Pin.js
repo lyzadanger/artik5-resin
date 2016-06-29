@@ -1,9 +1,12 @@
-var fs = require('fs');
-var path = require('path');
-var GPIO_PATH = '/sys/class/gpio';
+const fs = require('fs');
+const path = require('path');
+const EPoll = require('epoll');
 
-var PIN_MAP = {
-  '13': '135'
+const GPIO_PATH = '/sys/class/gpio';
+
+const PIN_MAP = {
+  2: '121',
+  13: '135'
 };
 
 function writeGPIO (pinPath, fileName, value) {
@@ -17,12 +20,13 @@ function enablePin (pin, pinPath) {
 }
 
 function DigitalPin (pinNum, mode) {
-  if (typeof PIN_MAP[pinNum] == 'undefined') {
-    throw new Error('Pin number ', pinNum, ' not found in lookup');
+  pinNum = +pinNum;
+  this.pin = PIN_MAP[pinNum];
+  if (this.pin == 'undefined') {
+    throw new Error(`Pin number ${pinNum} not found in mapping`);
   }
 
-  this.pin = PIN_MAP[pinNum];
-  this.pinDir = 'gpio' + this.pin;
+  this.pinDir = `gpio${this.pin}`;
   this.pinPath = path.join(GPIO_PATH, this.pinDir);
   this.mode = mode;
   this.value = 0;
@@ -40,6 +44,18 @@ DigitalPin.prototype.write = function (level) {
 
 DigitalPin.prototype.toggle = function () {
   this.write(!this.value);
+};
+
+DigitalPin.prototype.watch = function (fn) {
+  const valuefd = fs.openSync(path.join(this.PinPath, 'value'));
+  var buffer = new Buffer(1);
+
+  this.poller = new EPoll((err, fd, events) => {
+    fs.readSync(fd, buffer, 0, 1, 0);
+    this.fn(buffer);
+  });
+  fs.readSync(valuefd, buffer, 0, 1, 0);
+  this.poller.add(valuefd, EPoll.EPOLLPRI);
 };
 
 module.exports = DigitalPin;
