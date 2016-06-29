@@ -47,7 +47,7 @@ DigitalPin.prototype.toggle = function () {
 };
 
 DigitalPin.prototype.watch = function (fn) {
-  const valuefd = fs.openSync(path.join(this.pinPath, 'value'));
+  const valuefd = fs.openSync(path.join(this.pinPath, 'value'), 'r');
   var buffer = new Buffer(1);
 
   this.poller = new EPoll((err, fd, events) => {
