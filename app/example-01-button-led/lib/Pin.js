@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const EPoll = require('epoll');
+const EPoll = require('epoll').Epoll;
 
 const GPIO_PATH = '/sys/class/gpio';
 
