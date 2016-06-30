@@ -14,7 +14,7 @@ function writeGPIO (pinPath, fileName, value) {
 }
 
 function enablePin (pin, pinPath) {
-  if (!fs.existsSync(pinPath)) {
+  if (!fs.existsSync(pinPath)) { // `fs.exists` is deprecated. Whoops.
     fs.writeFileSync(path.join(GPIO_PATH, 'export'), pin, {flag : 'w'});
   }
 }
@@ -42,8 +42,9 @@ DigitalPin.prototype.write = function (level) {
   this.value = level;
 };
 
-DigitalPin.prototype.toggle = function () {
-  this.write(!this.value);
+DigitalPin.prototype.toggle = function (state) {
+  state = (typeof state === 'undefined') ? !this.value : !!state;
+  this.write(state);
 };
 
 DigitalPin.prototype.watch = function (fn) {
